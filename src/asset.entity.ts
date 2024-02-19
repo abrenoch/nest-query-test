@@ -8,9 +8,6 @@ export class AssetEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true, name: 'file_id' })
-  fileId: number;
-
   @Column({ name: 'asset_name' })
   assetName: string;
 
