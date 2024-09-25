@@ -4,7 +4,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AssetModule } from './asset.module';
 import { AssetEntity } from './asset.entity';
-import { AssetCategoriesEntity } from './asset-categories.entity';
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
+} from '@apollo/server/plugin/landingPage/default';
 
 @Module({
   imports: [
@@ -13,17 +16,25 @@ import { AssetCategoriesEntity } from './asset-categories.entity';
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username: '<db_username>',
-      password: '<db_password>',
-      database: 'test-db',
-      entities: [
-        AssetEntity, AssetCategoriesEntity
-      ],
+      username: 'root',
+      password: '',
+      database: 'pimcore-import',
+      entities: [AssetEntity],
     }),
-    TypeOrmModule.forFeature([AssetEntity, AssetCategoriesEntity]),
+    TypeOrmModule.forFeature([AssetEntity]),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      playground: false,
+      plugins: [
+        process.env.NODE_ENV === 'production'
+          ? ApolloServerPluginLandingPageProductionDefault()
+          : ApolloServerPluginLandingPageLocalDefault(),
+      ],
+      subscriptions: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'graphql-ws': true,
+      },
     }),
   ],
   controllers: [],

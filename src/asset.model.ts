@@ -1,11 +1,10 @@
-import { FilterableField, IDField, UnPagedRelation } from '@ptc-org/nestjs-query-graphql';
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { AssetCategoriesModel } from './asset-categories.model';
+import { FilterableField, IDField } from '@ptc-org/nestjs-query-graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType('Asset', {
   description: 'The Test model',
 })
-@UnPagedRelation('categories', () => AssetCategoriesModel)
+@InputType('CreateAssetInput')
 export class AssetModel {
 
   @IDField(() => Int, { allowedComparisons: ['eq', 'in'] })
