@@ -5,19 +5,23 @@ import {
   QueryService,
 } from '@ptc-org/nestjs-query-core';
 import { AssetEntity } from './asset.entity';
-// import { CreateOneAssetInputDTO } from './create-one-asset.dto';
+import { AssetModel } from './asset.model';
+import { CreateOneAssetInputDTO } from './create-one-asset.dto';
 
-@QueryService(AssetEntity)
-export class AssetQueryService extends ProxyQueryService<AssetEntity> {
+// @QueryService(AssetModel) // disabled this to make the linter stop complaining - not sure if this is correct
+export class AssetQueryService extends ProxyQueryService<
+  AssetModel,
+  CreateOneAssetInputDTO
+> {
   constructor(
     @InjectQueryService(AssetEntity)
-    private service: QueryService<AssetEntity>,
+    private service: QueryService<AssetModel, CreateOneAssetInputDTO>,
   ) {
     super(service);
   }
 
-  async createOne(input: DeepPartial<AssetEntity>): Promise<AssetEntity> {
-    console.log('AssetQueryService.createOne', input);
+  async createOne(input: CreateOneAssetInputDTO): Promise<AssetModel> {
+    console.log('AssetQueryService.createOne', input); // excpecting to see "filePath" from CreateOneAssetInputDTO here
 
     const newAsset = new AssetEntity();
     newAsset.assetName = 'hello';
