@@ -16,7 +16,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d .\\data-source.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
@@ -30,9 +31,12 @@
     "@ptc-org/nestjs-query-core": "^7.0.1",
     "@ptc-org/nestjs-query-graphql": "^7.0.1",
     "@ptc-org/nestjs-query-typeorm": "^7.0.1",
+    "dataloader": "^2.2.2",
+    "dotenv": "^16.4.5",
     "express-formidable": "^1.2.0",
     "express-session": "^1.18.0",
     "graphql": "^16.8.1",
+    "graphql-subscriptions": "^2.0.0",
     "mysql2": "^3.9.1",
     "passport": "^0.7.0",
     "passport-ldapauth": "^3.0.1",
@@ -40,9 +44,7 @@
     "pdftopic": "^1.0.1-alpha",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20",
-    "dataloader": "^2.2.2",
-    "graphql-subscriptions": "^2.0.0"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.1",
