@@ -8,18 +8,22 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from '@apollo/server/plugin/landingPage/default';
+import dotenv from 'dotenv';
+
+const CONFIG = dotenv.config().parsed;
 
 @Module({
   imports: [
     AssetModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: '<db_username>',
-      password: '<db_password>',
-      database: 'test-db',
+      type: CONFIG.DB_TYPE as any,
+      host: CONFIG.DB_HOST,
+      port: parseInt(CONFIG.DB_PORT),
+      username: CONFIG.DB_USERNAME,
+      password: CONFIG.DB_PASSWORD,
+      database: CONFIG.DB_DATABASE,
       entities: [AssetEntity],
+      migrations: [process.cwd() + '/../migrations/*.ts'],
     }),
     TypeOrmModule.forFeature([AssetEntity]),
     GraphQLModule.forRoot<ApolloDriverConfig>({
